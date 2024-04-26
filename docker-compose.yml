@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  wordpress:
+    image: wordpress:latest
+    restart: always
+    ports:
+      - "8000:80"  # Map port 8000 on host to port 80 on container
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: example
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - ./project:/var/www/html
+
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: example
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    volumes:
+      - ./db_data:/var/lib/mysql
+
+volumes:
+  wordpress_data:
+  db_data:
